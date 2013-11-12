@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Nguyen Le Long Tan - Test Task</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+	<script type="text/x-handlebars" id="tracks">
+		<div class="mainContent">
+			<div id="tracksContent" class="table-responsive">
+				<table id="tracksTable" class="table table-bordered">
+					<tr>
+						<th>Track name</th>
+						<th>Artist name</th>
+						<th>Album name</th>
+						<th>Length</th>
+					</tr>
+				{{#each controller}}
+					<tr {{action "trackSelected" this}}>     
+						<td>{{trackName}}</td>
+						<td>{{artistName}}</td>
+						<td>{{albumName}}</td>
+						<td>{{length}}</td>
+					</tr>
+				{{/each}}
+				</table>
+			</div>
+			<div class="footerTracks">
+				<button class="mainbtn" {{action "addTrack"}}>ADD</button>
+				<button class="mainbtn" {{action "deleteTrack"}}>DELETE</button>
+			</div>
+			{{partial deleteDialog}}
+			{{partial addDialog}}
+		</div>
+		<script>
+			$(document).ready(function(){
+				$("#tracksTable tr").click(function() {
+					$("#tracksTable tr td").removeAttr('class');
+					$('td',this).attr('class', 'clickedRow');
+				});
+			});
+		</script>
+	</script>
+	
+	<script type="text/x-handlebars" id="deleteDialog" aria-hidden="true" style="display:none">
+		<div id="deleteTrackDialog" class="modal fade hide">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header centerAlign">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h1 class="centerAlign">Delete selected note?</h1>
+					</div>
+					<div class="modal-body">
+						Are you sure you want to delete <em>{{trackSelected.trackName}}</em>
+					</div>
+					<div class="footerTracks">
+						<button class="mainbtn" {{action "doConfirmDelete"}}>Delete</button>
+						<button class="mainbtn" {{action "doCancelDelete"}}>Cancel</button>					
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	
+	<script type="text/x-handlebars" id="addDialog">
+		<div id="addTrackDialog" class="modal fade" aria-hidden="true" style="display:none">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="centerAlign">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h1 class="centerAlign">New note</h1>
+					</div>
+					<div class="bodyAdd">
+						<form class="form-horizontal" role="form">
+							<div class="form-group">
+								<label for="inputName" class="col-sm-2 control-label">Track Name :</label>
+								<div class="col-sm-10">
+									{{input type="text" class="form-control" id="inputName" placeholder="insert Track Name" valueBinding="newTrackName"}}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputArtistName" class="col-sm-2 control-label">Artist Name :</label>
+								<div class="col-sm-10">
+									{{input type="text" class="form-control" id="inputArtistName" placeholder="insert Artist Name" valueBinding="newArtistName"}}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputAlbumName" class="col-sm-2 control-label">Album Name :</label>
+								<div class="col-sm-10">
+									{{input type="text" class="form-control" id="inputAlbumName" placeholder="insert Album Name" valueBinding="newAlbumName"}}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputLength" class="col-sm-2 control-label">Length :</label>
+								<div class="col-sm-10">
+									{{input type="number" class="form-control" id="inputLength" placeholder="insert length" valueBinding="newLength"}}
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="footerTracks">
+						<button class="mainbtn" {{action "doConfirmAdd"}}>Add</button>
+						<button class="mainbtn" {{action "doCancelAdd"}}>Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	<script src="js/libs/jquery-1.9.1.js"></script>
+	<script src="js/libs/handlebars-1.0.0.js"></script>
+	<script src="js/libs/ember-1.1.2.js"></script>
+	<script src="js/libs/ember-data.js"></script>
+	<script src="js/libs/localstorage_adapter.js"></script>
+	<script src="js/libs/bootstrap.min.js"></script>
+	<script src="js/app.js"></script>
+</body>
+</html>
